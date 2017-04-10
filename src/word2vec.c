@@ -507,7 +507,7 @@ void *TrainModelThread(void *id) {
         c = sentence_position - window + a;
         if (c < 0) continue;
         if (c >= sentence_length) continue;
-        last_word = sen[c];
+        last_word = sen[c]; //context word c
         if (last_word == -1) continue;
         l1 = last_word * layer1_size;
         for (c = 0; c < layer1_size; c++) neu1e[c] = 0;
@@ -540,6 +540,7 @@ void *TrainModelThread(void *id) {
             label = 0;
           }
           l2 = target * layer1_size;
+	  // l1= last_word* layer1_size --> context word's row-vector
           f = 0;
           for (c = 0; c < layer1_size; c++) f += syn0[c + l1] * syn1neg[c + l2];
           if (f > MAX_EXP) g = (label - 1) * alpha;
